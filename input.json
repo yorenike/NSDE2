@@ -1,0 +1,57 @@
+{
+    "dimension": 1,
+    
+    "problem": {
+        "type": "poisson",
+        "domain": {
+            "xmin": 0.0,
+            "xmax": 1.0,
+            "ymin": 0.0,
+            "ymax": 1.0
+        }
+    },
+    
+    "grid": {
+        "n": 64
+    },
+    
+    "boundary": {
+        "left": {
+            "type": "dirichlet",
+            "value": "from_test_function"
+        },
+        "right": {
+            "type": "dirichlet",
+            "value": "from_test_function"
+        },
+        "bottom": {
+            "type": "dirichlet",
+            "value": "from_test_function"
+        },
+        "top": {
+            "type": "dirichlet",
+            "value": "from_test_function"
+        }
+    },
+    
+    "test_function": {
+        "name": "exp_y_sin_x",
+        "u_exact": "exp(y + sin(x))"
+    },
+    
+    "multigrid": {
+        "restriction": "full_weighting",
+        "interpolation": "linear",
+        "cycle": "FMG",
+        "nu1": 2,
+        "nu2": 2,
+        "epsilon": 1e-8,
+        "max_iter": 100
+    },
+    
+    "output": {
+        "verbose": true,
+        "save_solution": false,
+        "output_dir": "./results"
+    }
+}
