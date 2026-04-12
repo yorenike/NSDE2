@@ -12,7 +12,7 @@
     },
     
     "grid": {
-        "n": 64
+        "n": 256
     },
     
     "boundary": {
@@ -21,7 +21,7 @@
             "value": "from_test_function"
         },
         "right": {
-            "type": "dirichlet",
+            "type": "neumann",
             "value": "from_test_function"
         },
         "bottom": {
@@ -35,8 +35,7 @@
     },
     
     "test_function": {
-        "name": "exp_y_sin_x",
-        "u_exact": "exp(y + sin(x))"
+        "name": "polynomial"
     },
     
     "multigrid": {

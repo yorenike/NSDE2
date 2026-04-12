@@ -32,7 +32,7 @@ public:
     
     // 多重网格相关
     std::shared_ptr<Grid1D> getCoarseGrid();
-    bool isCoarsest() const { return n <= 2; }
+    bool isCoarsest() const { return n <= 8; }
 };
 
 #endif
