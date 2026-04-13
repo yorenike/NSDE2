@@ -7,28 +7,29 @@
 #include "Grid1D.h"
 
 class Restrictor {
+private:
+    std::string left_type = "dirichlet";
+    std::string right_type = "dirichlet";
+    std::string restrict_type = "full_weighting";  // "full_weighting" 或 "injection"
+    
 public:
-    // 默认构造函数
     Restrictor() = default;
     
-    // 带边界类型的构造函数
-    Restrictor(const std::string& lt, const std::string& rt)
-        : left_type(lt), right_type(rt) {}
+    Restrictor(const std::string& lt, const std::string& rt, const std::string& rt_type = "full_weighting")
+        : left_type(lt), right_type(rt), restrict_type(rt_type) {}
     
-    // 全加权限制
-    std::vector<double> operator()(const std::vector<double>& v_fine,
-                                    std::shared_ptr<Grid1D> fine_grid,
-                                    std::shared_ptr<Grid1D> coarse_grid) const;
-    
-    // 设置边界类型
     void setBoundaryTypes(const std::string& lt, const std::string& rt) {
         left_type = lt;
         right_type = rt;
     }
     
-private:
-    std::string left_type = "dirichlet";
-    std::string right_type = "dirichlet";
+    void setRestrictType(const std::string& type) {
+        restrict_type = type;
+    }
+    
+    std::vector<double> operator()(const std::vector<double>& v_fine,
+                                    std::shared_ptr<Grid1D> fine_grid,
+                                    std::shared_ptr<Grid1D> coarse_grid) const;
 };
 
 #endif

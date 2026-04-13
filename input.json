@@ -17,11 +17,11 @@
     
     "boundary": {
         "left": {
-            "type": "dirichlet",
+            "type": "neumann",
             "value": "from_test_function"
         },
         "right": {
-            "type": "neumann",
+            "type": "dirichlet",
             "value": "from_test_function"
         },
         "bottom": {
@@ -35,17 +35,17 @@
     },
     
     "test_function": {
-        "name": "polynomial"
+        "name": "exp_y_sin_x"
     },
     
     "multigrid": {
         "restriction": "full_weighting",
         "interpolation": "linear",
-        "cycle": "FMG",
+        "cycle": "V",
         "nu1": 2,
         "nu2": 2,
         "epsilon": 1e-8,
-        "max_iter": 100
+        "max_iter": 500
     },
     
     "output": {

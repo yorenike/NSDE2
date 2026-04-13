@@ -139,7 +139,7 @@ void convergenceRateTest(const TestFunction1D& tf,
     std::cout << "Convergence Rate Test (" << cycle_type << ")" << std::endl;
     std::cout << "========================================" << std::endl;
     
-    std::vector<int> ns = {16, 32, 64, 128};
+    std::vector<int> ns = {16, 32, 64, 128, 256};
     std::vector<double> errors;
     std::vector<double> hs;
     
@@ -236,7 +236,7 @@ int main(int argc, char* argv[]) {
     int nu2 = parser.getIntOrDefault("multigrid.nu2", 2);
     double epsilon = parser.getDoubleOrDefault("multigrid.epsilon", 1e-8);
     int max_iter = parser.getIntOrDefault("multigrid.max_iter", 100);
-    
+  
     std::cout << "\nConfiguration:" << std::endl;
     std::cout << "  n = " << n << std::endl;
     std::cout << "  test_function = " << test_name << std::endl;
@@ -254,16 +254,18 @@ int main(int argc, char* argv[]) {
     // 获取边界值
     double left_dirichlet = tf.exact(0.0);
     double right_dirichlet = tf.exact(1.0);
-    double left_neumann = -tf.du(0.0);
-    double right_neumann = tf.du(1.0);
+    double left_dy = tf.du(0.0);
+    double right_dy = tf.du(1.0);
+    double left_neumann = -left_dy;
+    double right_neumann = right_dy;
     
     std::cout << "\nBoundary values (from test function):" << std::endl;
-    std::cout << "  u(0) = " << left_dirichlet << ", u'(0) = " << left_neumann << std::endl;
-    std::cout << "  u(1) = " << right_dirichlet << ", u'(1) = " << right_neumann << std::endl;
+    std::cout << "  u(0) = " << left_dirichlet << ", u'(0) = " << left_dy << std::endl;
+    std::cout << "  u(1) = " << right_dirichlet << ", u'(1) = " << right_dy << std::endl;
     
     // 创建求解器组件
-    Restrictor restrictor(left_type, right_type);
-    Prolongator prolongator;
+    Restrictor restrictor(left_type, right_type, restriction_type);
+    Prolongator prolongator(interpolation_type);
     Smoother smoother(2.0/3.0, left_type, right_type);
     
     // 运行主测试
